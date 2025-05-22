@@ -21,14 +21,16 @@ def main():
     while running:
         disp.draw_board(board, highlights=legal_targets)
 
+        if board.is_game_over() or len(board.pieces(chess.KING, chess.WHITE)) == 0 or len(board.pieces(chess.KING, chess.BLACK)) == 0:
+            print('game over')
+            running = False
+
         if botTurn and not board.is_game_over():
             move = bot.makeNextMove(board.fen())
             if move:
                 board.push(move)
-                print(board.fen())
-                if board.is_game_over():
-                    print('game over')
-                    running = False
+                # print(board.fen())
+                
             botTurn = False
             continue
 
@@ -43,20 +45,15 @@ def main():
                     piece = board.piece_at(clicked_square)
                     if piece and piece.color == board.turn:
                         selected_square = clicked_square
-                        legal_targets = [move.to_square for move in board.legal_moves if move.from_square == selected_square]
+                        legal_targets = [move.to_square for move in board.pseudo_legal_moves if move.from_square == selected_square]
 
                 else:
                     if clicked_square in legal_targets:
                         move = chess.Move(selected_square, clicked_square)
-                        if move in board.legal_moves:
+                        if move in board.pseudo_legal_moves:
                             board.push(move)
                             botTurn = True
-
-                            print(board.fen())
-
-                            if board.is_game_over():
-                                print('game over')
-                                running = False
+                            # print(board.fen())
                     selected_square = None
                     legal_targets = []
 
