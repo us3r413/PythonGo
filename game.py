@@ -2,7 +2,8 @@ import chess
 from bot import Bot
 import draw
 import pygame
-START = "rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR w KQkq - 0 1"
+# START = "rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR w KQkq - 0 1"
+START = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
 def get_square_under_mouse(square_size):
     x, y = pygame.mouse.get_pos()
     col = x // square_size
@@ -10,7 +11,7 @@ def get_square_under_mouse(square_size):
     return chess.square(col, row)
 def main():
     pygame.init()
-    board = chess.Board(START)
+    board = chess.Board()
     disp = draw.display()
     selected_square = None
     legal_targets = []
@@ -24,11 +25,12 @@ def main():
             move = bot.makeNextMove(board.fen())
             if move:
                 board.push(move)
+                print(board.fen())
+                if board.is_game_over():
+                    print('game over')
+                    running = False
             botTurn = False
             continue
-        
-        if board.is_game_over():
-            break
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -42,12 +44,19 @@ def main():
                     if piece and piece.color == board.turn:
                         selected_square = clicked_square
                         legal_targets = [move.to_square for move in board.legal_moves if move.from_square == selected_square]
+
                 else:
                     if clicked_square in legal_targets:
                         move = chess.Move(selected_square, clicked_square)
                         if move in board.legal_moves:
                             board.push(move)
                             botTurn = True
+
+                            print(board.fen())
+
+                            if board.is_game_over():
+                                print('game over')
+                                running = False
                     selected_square = None
                     legal_targets = []
 
