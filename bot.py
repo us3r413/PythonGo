@@ -145,31 +145,31 @@ class Bot:
         for piece_type, piece_value in piece_values.items():
             for square in board.pieces(piece_type, chess.WHITE):
                 if piece_type == chess.PAWN:
-                    value += self.pawn_pos_val[square] * piece_value
+                    value += self.pawn_pos_val[square] + piece_value
                 elif piece_type == chess.KNIGHT:
-                    value += self.knight_pos_val[square] * piece_value
+                    value += self.knight_pos_val[square] + piece_value
                 elif piece_type == chess.BISHOP:
-                    value += self.bishop_pos_val[square] * piece_value
+                    value += self.bishop_pos_val[square] + piece_value
                 elif piece_type == chess.ROOK:
-                    value += self.rook_pos_val[square] * piece_value
+                    value += self.rook_pos_val[square] + piece_value
                 elif piece_type == chess.QUEEN:
-                    value += self.queen_pos_val[square] * piece_value
+                    value += self.queen_pos_val[square] + piece_value
                 else:
-                    value += self.king_pos_val[square] * piece_value
+                    value += self.king_pos_val[square] + piece_value
 
         for piece_type, piece_value in piece_values.items():
             for square in board.pieces(piece_type, chess.BLACK):
                 if piece_type == chess.PAWN:
-                    value -= self.pawn_pos_val[square] * piece_value
+                    value -= self.pawn_pos_val[square] + piece_value
                 elif piece_type == chess.KNIGHT:
-                    value -= self.knight_pos_val[square] * piece_value
+                    value -= self.knight_pos_val[square] + piece_value
                 elif piece_type == chess.BISHOP:
-                    value -= self.bishop_pos_val[square] * piece_value
+                    value -= self.bishop_pos_val[square] + piece_value
                 elif piece_type == chess.ROOK:
-                    value -= self.rook_pos_val[square] * piece_value
+                    value -= self.rook_pos_val[square] + piece_value
                 elif piece_type == chess.QUEEN:
-                    value -= self.queen_pos_val[square] * piece_value
+                    value -= self.queen_pos_val[square] + piece_value
                 else:
-                    value -= self.king_pos_val[square] * piece_value
+                    value -= self.king_pos_val[square] + piece_value
 
         return value * multiplier
